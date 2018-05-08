@@ -1,0 +1,198 @@
+body, td {
+	font-family: verdana, tahoma, arial;
+	font-size: 13px;
+}
+
+body {
+	margin: 0px;
+}
+
+.core {
+	margin: 0 auto;
+}
+
+td {
+	vertical-align: top;
+}
+
+h3, h4, h5 {
+	margin-bottom: 3px;
+}
+
+.info {
+	font-size: 11px;
+	color: gray;
+}
+
+.small {
+	font-family: arial;
+	font-weight: normal;
+	font-size: 11px;
+	color: gray;
+}
+
+.help {
+	font-weight: normal;
+	font-size: 11px;
+	color: gray;
+	text-decoration: none;
+}
+
+.grid {
+	border: solid 1px black;
+	width: 258px;
+	height: 258px;
+}
+
+.smallGrid {
+	width: 64px;
+	height: 64px;
+}
+
+.previewSelected {
+	border: solid 1px #7d76fc;
+	cursor: pointer;	
+}
+
+.preview {
+	border: dotted 1px gray;
+	cursor: pointer;
+}
+
+.previewLabel {
+	font-size: 10px;
+	overflow: hidden;
+	background-color: #eee;
+	border-right: solid 1px gray;
+	border-bottom: solid 1px gray;
+	padding-left: 2px;
+}
+
+.pickerCell {
+	cursor: pointer;
+	width: 24px;
+	height: 16px;
+	margin: 4px;
+	border: solid 1px black;
+	float: left;
+}
+
+.exportField {
+	height: 11em;
+	padding: 8px;
+	background-color: lightyellow;
+	border: dashed 1px orange;
+	overflow: auto;
+	font-family: mono;
+	font-size: 11px;
+}
+
+.gridCell {
+	width: 14px;
+	height: 14px;
+}
+
+.previewCell {
+	width: 4px;
+	height: 4px;
+}
+
+.tool, .toolSelected {
+	cursor: pointer;
+	padding: 2px;	
+}
+
+.tool {
+	border: solid 1px white;
+}
+
+.tool:hover {
+	border: solid 1px gray;
+}
+
+.toolSelected {
+	border: solid 1px #7d76fc;
+}
+
+.action {
+	cursor: pointer;
+}
+
+.options {
+	font-size: 11px;
+	border-top: dashed 1px #ccc;
+	margin-top: 8px;
+}
+
+.options td, #tabExpOptions td {
+	font-size: 11px;
+}
+
+.colorEditor {
+	border: solid 2px orange;
+	background: white;
+	display: none;
+	position: absolute;
+	width: 256px;	
+}
+
+.lowprofLink {
+	color: black;
+	text-decoration: none;
+}
+
+.lowprofLink:hover {
+	text-decoration: underline;
+}
+
+/* tabs */
+
+.tabContents {
+	display: none;
+	padding: 8px;
+	border-left: solid 1px #ccc;
+	border-right: solid 1px #ccc;
+	border-bottom: solid 1px #ccc;		
+	width: 34em; 
+	height: 11em;	
+}
+
+.tabs {
+	list-style-type: none;
+	padding-bottom: 24px;
+	border-bottom: 1px solid #ccc;
+	margin: 0;
+	font-size: 12px;
+}
+
+.tabs li {
+	float: left;
+	height: 21px;
+	background-color: #ddd;
+	margin: 2px 2px 0 2px;
+	border: 1px solid #ccc;
+}
+
+.tabs a {
+	float: left;
+	display: block;
+	color: #666;
+	text-decoration: none;
+	padding: 4px;
+}
+
+.tabs a:hover {
+	background: #fff;
+}
+
+.tabSelected {
+	border-bottom: 1px solid #fff;
+	background-color: #fff;
+}
+
+.tabSelected a {
+	font-weight: bold;
+	color: #000;
+	background-color: #fff;
+}
+

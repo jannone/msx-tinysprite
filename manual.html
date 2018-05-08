@@ -1,0 +1,168 @@
+<html>
+<head>
+	<title>TinySprite Manual - MSX Sprite Editor</title>
+	<link rel="SHORTCUT ICON" href="img/logo.gif" />
+<style>
+
+body, td {
+	font-family: verdana, tahoma, arial;
+	font-size: 13px;
+}
+
+body {
+	padding: 8px;
+}
+
+td {
+	vertical-align: top;
+}
+
+h3 {
+	margin-bottom: 3px;
+}
+
+.entry {
+	margin-left: 32px;
+	margin-bottom: 32px;
+}
+
+ul>li {
+	margin-bottom: 8px;
+}
+
+</style>
+</head>
+<body>
+
+<h1>TinySprite User Manual</h1>
+<hr />
+<p>
+	<i>This is a draft. Be patient. :)</i>
+</p>
+
+<h2>Topics</h2>
+
+<ol>
+	<li><a href='#projType'>Project Types</a></li>
+	<li><a href='#saveMethod'>Saving Methods</a></li>
+	<li><a href='#tools'>Tools</a></li>
+</ol>
+
+<hr />
+
+<a name='projType' />
+<h3>Project Types</h3>
+<div class='entry'>
+	<p>You can either choose MSX1 or MSX2 as your Project Type.</p>
+	<p>This option affects your Exported data, and - <strike>in the near future</strike> right now - the ability to change the palette.</p>
+	<p>
+		MSX1 allows you to have a maximum of 4 sprites per line, where each sprite is of a single color.<br />
+		So, to compose a drawing of, say, 3 colors, you'll need exactly 3 sprites.
+	</p>
+		MSX2, on the other hand, allows you to have up to 8 sprites per line, and each of the sprite's line 
+		can have a different color.
+	</p>
+	<p>
+		In addition, the video chip in MSX2 is able to combine sprites colors with an OR operator, producing
+		a total number of colors higher than the number of sprites combined. 
+		TinySprite take that into consideration and automatically generates the best combination of colors in 
+		order to minimize the quantity of sprites you need.
+	</p>
+	<p>
+		Note 1: the color 0 (zero) in MSX2 is not always transparent. In fact, you can change its RGB values and 
+		use it as a regular color. This behavior will be implemented soon in TinySprite.
+	</p>
+	<p>
+		Note 2: in MSX-BASIC you can change the sprite bitmap mask using SPRITE$(N)=[pattern]. With MSX2 you can also alter the line colors with COLORSPRITE$(N)=[attributes].
+	</p>
+</div>
+
+<a name='saveMethod' />
+<h3>Saving Methods</h3>
+<div class='entry'>
+	<p>You can choose to Save/Load your Project in a variety of ways:</p>
+	<ul>
+		<li>
+			<b>File</b>: this method is only supported by Firefox 1.5 and requires that you download and run TinySprite from your computer.<br />
+			It will request your permission to read and save files on the hard-disk, and then
+			proceed with your regular file dialog window.
+			This is the only option that supports choosing a file name and using files directly on the hard-disk,
+			so it's the more natural option for an editor :)
+		</li>
+		<li>
+			<b>Cookie</b>: this option loads/saves a single project by using a cookie on your browser.<br />
+			A cookie is a piece of data associated with a particular domain, so this will only work as long as
+			you run the editor always from the same place.<br />
+			This is a easy-to-use option, however must be handled with care. If you delete your browser's temporary
+			files (cache) you might lose your cookies, and then your Project is gone. So, be careful!
+		</li>
+		<li>
+			<b>Copy+Paste</b>: also known as the "backup option". This will encode your project in a plain text 
+			format, that you can copy and paste into any file on your computer. Later on, you can load your Project
+			by simply pasting the very same text into the Import window.
+		</li>
+	</ul>
+</div>
+
+<a name='tools' />
+<h3>Tools</h3>
+<div class='entry'>
+	<p>These are the tools available for editing the grid:</p>
+	<ul>
+		<li><img src='img/pencil.gif' />
+			<b>Pencil</b>: sets pixels with the left mouse button, unsets them with the right button.
+			You can just click and drag the mouse above the grid as you would do in any painting program.
+		</li>
+		<li><img src='img/bucket.gif' />
+			<b>Bucket</b>: paints a whole contiguous area of the drawing.
+			Example: clicking over a green pixel will turn every green pixel in the neighbourhood to the color you have chosen.
+		</li>
+		<li><img src='img/picker.gif' />
+			<b>Color Picker</b>: samples a color from the drawing, setting it as your current color.
+		</li>
+		<li><img src='img/undo.gif' />
+			<b>Undo</b>: undo your last action, useful when you make mistakes. You can undo multiple times.
+		</li>
+		<li><img src='img/redo.gif' />
+			<b>Redo</b>: repeats a previously undone action. 
+		</li>
+		<li><img src='img/fliph.gif' />
+			<b>Flip Horizontally</b>: mirrors the drawing horizontally.
+		</li>
+		<li><img src='img/flipv.gif' />
+			<b>Flip Vertically</b>: mirrors the drawing vertically.
+		</li>
+		<li><img src='img/rot_cw.gif' />
+			<b>Rotate Clockwise</b>: rotates the drawing 90 degrees clockwise.
+		</li>
+		<li><img src='img/rot_acw.gif' />
+			<b>Rotate Anticlockwise</b>: rotates the drawing 90 degrees anticlockwise.
+		</li>
+		<li><img src='img/arrows.gif' />
+			<b>Roll</b>: shifts the drawing in the given direction, wrapping around the grid.
+		</li>
+	</ul>
+</div>
+
+<a name='preview' />
+<h3>Preview Area</h3>
+<div class='entry'>
+	<p>The preview area presents a reduced scale version of what your drawings look like.</p>
+	<p>Clicking on one of the available previews have the effect of selecting which slot is being edited in the main Grid.</p>
+	<p>You can use the preview panel to line up 4 slots together. This is often useful when editing "big sprites".</p>
+</div>
+
+<a name='slots' />
+<h3>Slots Area</h3>
+<div class='entry'>
+	<p>Each of your drawings is stored inside a single slot.</p>
+	<p>You can create any number of slots to store your drawings, rename them accordingly, and preview them on the preview area.</p>
+	<p>They can also be deleted, copied, pasted over another slot...</p>
+	<p>Upon clicking on a slot, your selected preview grid will be linked to it. So whenever you return to that particular preview, the slot will be active again.</p>
+</div>
+
+
+<hr />
+<i>Copyleft Rafael Jannone 2006</i>
+</body>
+</html>

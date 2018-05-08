@@ -1,0 +1,63 @@
+<!--
+
+TinySprite - A Javascript MSX Sprite Editor
+Copyright (C) 2006  Rafael de Oliveira Jannone
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+Please follow this link: http://www.gnu.org/licenses/gpl.txt
+
+Contact the author by e-mail: rafael@jannone.org
+
+-->
+<html>
+<head>
+	<title>Import TXT - TinySprite</title>
+<style>
+
+body, td {
+	font-family: verdana, tahoma, arial;
+	font-size: 13px;
+	background-color: #EEE;
+}
+
+textarea {
+	width: 90%;
+	height: 80%;
+	border: solid 1px #CCC;
+}
+
+</style>
+<script>
+
+function sendTXT(frm) {
+	var txt = frm.elements[0].value;
+	window.opener.receiveTXT(txt, document.location.href);
+	setTimeout(function() { window.close(); }, 100);
+	return false;
+}
+
+</script>
+</head>
+<body style='text-align: center'>
+
+<small>Paste your TXT snippet below and hit <b>Import</b></small>
+<form onsubmit="return sendTXT(this)">
+	<textarea></textarea><br />
+	<input type="submit" value="Import" />
+</form>
+</body>
+<script>
+
+document.forms[0].elements[0].focus();
+
+</script>
+</html>

@@ -1,0 +1,121 @@
+<!--
+
+Changelog:
+
+0.4.7
+	- 17/05/2010:
+		* Fixed bug where UNDOing the pencil tool could rollback the wrong slot 
+		* Added Inverse tool feature		
+
+0.4.6
+	- 21/10/2007:
+		* BASIC/Data exporter: numbered lines is now optional
+		* preliminary support for importing DATA values into a slot
+		* bugfixes
+
+0.4.5
+	- 26/11/2006:
+		* lots of interface changes, and opera bugfixes
+
+0.4.4
+	- 21/11/2006:
+		* "paste" button now overlays a slot rather than overwriting it
+		* grid (canvas version) bugfixes, specially on Firefox 2.0
+
+0.4.3
+	- 13/05/2006:
+		* added "ASM hexa" format (at Sonic_aka_T's request)
+		* avoid using canvas on Windows 2000 (ARTRAG's bug report), needs testing
+
+0.4.2
+	- 31/04/2006:
+		* new GridCanvas based on the Gecko's 1.8 canvas tag (much faster start)
+		* gecko 1.8 detection, auto-select between canvas or traditional grid
+		* editing a color now updates the grid's background and the previews
+		* huge performance improvement on pencil tool
+
+0.4.1
+	- 30/04/2006:
+		* more human-readable file format
+		* more basic/DATA export options: including loader and line step
+
+0.4.0
+	- 30/04/2006:
+		* rewritten slot management code
+		* split javascript classes into separate files
+
+0.3.9a
+	- 12/04/2006: 
+		* new manual entries
+		* cosmetic fixes: centralized layout, new arrows, cursor pointer ("hand") in preview grids
+		
+0.3.9		
+	- 11/03/2006: message fixed when catching File load/save errors
+	
+0.3.8
+	- 05/02/2006: so many changes! :)
+		* implemented UNDO, finally!  needs some polishing
+		* palette editor supporting RGB 333 scheme (9 bits), only activated on MSX2 project type
+		* new project file format, it saves the type of project (msx1/msx2) plus your palette and slots
+		* support for significant zeroes on MSX2 (it means that 0 is considered a real color now)
+		* MSX2 export bugfixes
+		* some small GUI notifications
+		* optimized a bit the updating process on the grid and previews
+		* lots of code splits, more object-oriented code
+
+0.3.6
+	- 01/24/2006: added Mozilla XUL save method, better GUI for saving/loading Project
+
+0.3.5
+	- 01/23/2006: MUCH better MSX2 export, and cleaner export code overall. export options added.
+
+0.3.3
+	- 01/20/2006: new tools: rotate clockwise/anticlockwise, added tooltips on tool buttons
+
+0.3.2
+	- 01/18/2006: introduced MSX2 export test, to be fully implemented on version 0.4
+	- 01/14/2006: fixed bug where "New" and "Delete" (slot) didn't change the preview
+
+0.3.1
+	- 01/13/2006: implemented preview labels, so you can see which slot the preview is pointing to
+
+0.3.0
+	- 01/13/2006: tool buttons stolen from Gimp :)
+	- 01/13/2006: some layout re-org: "Project" section, other small GUI changes
+	- 01/13/2006: 4 preview areas for "big sprite" creation, end of "grid-drag" bug
+	- 01/12/2006: better slot management, more small code cleanups
+	- 01/11/2006: small code cleanups
+
+0.2.10
+	- 01/09/2006: new ASM binary export option, and the "All" checkbox allowing to export All slots at once
+
+0.2.9c
+	- 01/07/2006: annoying firefox "drag" on grid is reduced a bit
+	- 01/05/2006: pencil's right-click now erases the pixel
+	- 01/04/2006: bugfix for Firefox 1.0.7, had to change divs to table cells on Grid
+	- 01/03/2006: added export/import TXT format, so you can backup your slots without cookies
+	- 01/03/2006: palette picker cleanup, and filter tool added
+	- 01/03/2006: new tools: paint bucket, mirrors
+	- 01/02/2006: more useful/intelligent Export, now it scans every color
+	- 01/02/2006: Copy+Paste between slots, and background colors on preview/grid
+	- 01/02/2006: added Save/Load with cookies, and more slots... and the logo :)
+	- 01/02/2006: added preview area, bugfix for old Firefox (variable name "byte")
+	- 01/02/2006: added tools (roll) and slots, some small cleanups
+	- 01/01/2006: first public version
+
+TODO:
+	- UNDO tool polishing - limit undo levels, it lacks UNDO on slot deletion, and so on...
+	- more code and GUI cleanups
+	- more functions and tools: line, rectangle,...
+
+BUGS:
+	- preview pane does not behave nicelly after deleting its slot
+	- opera does not render the Grid quite correctly (last row too large)
+	- Firefox 1.0.1 might present some problems
+
+AUTHORS:
+	- Rafael Jannone
+	- Daniel Caetano (MSX2 export table)
+	... help? :)
+
+-->

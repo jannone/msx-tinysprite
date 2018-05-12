@@ -700,7 +700,7 @@ function exportWork() {
 
 	var el = eid('exp');
 	if (result == "")
-		el.innerHTML = "<i>Nothing to export</i>";
+		el.innerHTML = "// Nothing to export - Draw some sprites first!";
 	else {
 		if (etype == 'basic' || etype == 'data') {
 			var startLine = 10000, stepLine = 10;
@@ -739,11 +739,23 @@ function exportWork() {
 				}
 			}
 		}
-		el.innerHTML = result.replace(/\n/g, '<br />');
+		el.innerHTML = result;
 	}
-	showTab(1, 'tabExpCode');
 
 	return result;
+}
+
+function copyExported() {
+	var copyText = eid("exp");
+	copyText.select();
+	document.execCommand("Copy");
+	$('#btnCopyClipboard').tooltip({
+		title: "Code has been copied to clipboard"
+	})
+	$('#btnCopyClipboard').tooltip('show');
+	setTimeout(function() {
+		$('#btnCopyClipboard').tooltip('hide');
+	}, 1000)
 }
 
 function exportTXT() {
@@ -942,28 +954,11 @@ picker.ondblclick = function (value) {
 
 projTypeChanged();
 
-// tabs setup
+// export modal setup
 
-function showTab(tab, tabname) {
-	var divs = document.getElementsByTagName('div');
-	for (var i = 0; i < divs.length; i++) {
-		var div = divs[i];
-		if (div.className == 'tabContents')
-			div.style.display = 'none';
-	}
-	var tabs = eid('tabs').getElementsByTagName('li');
-	for (var i = 0; i < tabs.length; i++)
-		tabs[i].className = 'tab';
-	if (typeof tab == 'number')
-		tab = tabs[tab];
-	else
-		tab = tab.parentNode;
-	tab.className = 'tabSelected';
-	eid(tabname).style.display = 'block';
-	return false;
-}
-
-showTab(0, 'tabExpOptions');
+$('#exportModal').on('shown.bs.modal', function () {
+  exportWork()
+})
 
 // mouse setup
 

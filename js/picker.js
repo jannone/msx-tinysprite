@@ -37,13 +37,24 @@ Picker.prototype.createCell = function(color, value) {
 	var picker = this;		
 	el.onclick = function() {
 		picker.selectColor(value);
+		// hack to handle double-click for tapping devices
+		if (picker.clickTimeout) {
+			picker.editColor(value);
+			clearTimeout(picker.clickTimeout);
+			delete picker.clickTimeout;
+		} else {
+			picker.clickTimeout = setTimeout(function() {
+				delete picker.clickTimeout;
+			}, 300)
+		}
 	}
-	el.ondblclick = function() {
-		picker.editColor(value);
-		// FIXME: this is a hack for opera, should be a cleaner way
-		if (is_opera)
-			picker.enteringEdit = true;
-	}
+	// el.ondblclick = function() {
+	// 	picker.editColor(value);
+	// 	// FIXME: this is a hack for opera, should be a cleaner way
+	// 	if (is_opera) {
+	// 		picker.enteringEdit = true;
+	// 	}
+	// }
 	el.onmouseup = function(e) {
 		// FIXME: this is a hack for opera, should be a cleaner way
 		if (picker.enteringEdit) {
@@ -81,10 +92,10 @@ Picker.prototype.selectColor = function(value) {
 	if (this.selected) {
 		var prevcell = this.cells[this.selected];
 		prevcell.style.border = 'solid 1px black';
-		prevcell.style.margin = '4px';
+		// prevcell.style.margin = '4px';
 	}
 	cell.style.border = 'solid 3px black';
-	cell.style.margin = '2px';
+	// cell.style.margin = '2px';
 	this.selected = value;
 	return this.onclick(value);				
 }

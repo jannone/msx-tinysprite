@@ -23,194 +23,189 @@ Also, take a look at the Changelog:
 	http://msx.jannone.org/tinysprite/Changelog.txt
 
 -->
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-	<title>TinySprite 0.4.7 - MSX Sprite Editor</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	
 	<link rel="SHORTCUT ICON" href="img/logo.gif" />
-	<script src='js/util.js'></script>
-	<script src='js/slots.js'></script>
-	<script src='js/palette.js'></script>
-	<script src='js/grid.js'></script>	
-	<script src='js/gridCanvas.js'></script>		
-	<script src='js/picker.js'></script>
-	<script src='js/drawing.js'></script>
-	<script src='js/colorEditor.js'></script>
-	<script src='js/undo.js'></script>
-	<script src='js/tableMSX2.js'></script>		
-	<script src='js/sprite.js'></script>	
-<style>
-@import 'css/tinysprite.css';
-</style>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/tinysprite.css">
+
+	<title>TinySprite 0.5.0 - MSX Sprite Editor</title>
 </head>
 <body>
 
-<!-- MSXGDE MENU -->
-<div id='divTopMenuProto' style='display: none'>
-<ul class="menuTop" style='width: 3em'>
-	<li class="menuSub"><a>Edit</a>
-	<ul>
-		<li><a onclick='copySlot()'>Copy</a></li>
-		<li><a onclick='pasteSlot()'>Paste</a></li>
-		<li><a onclick='clearGrid()'>Clear</a></li>
-	</ul>
-	</li>
-</ul>
-<ul class="menuTop" style='width: 4em'>
-	<li class="menuSub"><a>Build</a>
-	<ul>
-		<li><a onclick='exportFile()'>Export As...</a></li>
-	</ul>
-	</li>
-</ul>
-</div>
-
-<map name="arrows">
-	<area shape="polygon" coords="11,1,31,11,36,1" href="#" onclick="return gridRollUp()" title='Roll Up' />
-	<area shape="polygon" coords="1,1,9,1,14,11,14,13,9,23,1,23" href="#" onclick="return gridRollLeft()" title='Roll Left' />
-	<area shape="polygon" coords="38,1,47,1,47,23,38,23,33,13,33,11" href="#" onclick="return gridRollRight()" title='Roll Right' />
-	<area shape="polygon" coords="17,13,31,13,36,23,11,23" href="#" onclick="return gridRollDown()" title='Roll Down' />
-</map>			
-
-<table class='core' cellspacing='0' cellpadding='0'>
-	<tr>
-		<td>		
-			<table style='padding: 10px 0px 10px 0px'>
-				<tr>
-					<td><img src='img/logo.gif' align='top' /></td>
-					<td>
-						<h1 style='display: inline'>TinySprite</h1>
-						<div style='text-align: right'>
-							<small>version 0.4.7</small>
-						</div>
-					</td>
-				</tr>
-			</table>
-		</td>
-		<td>
-			<table style='background-color: #eee; padding: 10px 10px 5px 10px'>
-				<tr>
-					<td>
-						<small>
-							<label for='projType'>Project:</label>
-							<a class='help' href='manual.html#projType' target='faq'>?</a>
-							<br />
-						</small>
-						<select id='projType' onchange='return onProjTypeChange(this)' >
-							<option value='msx1'>MSX 1</option>
-							<option value='msx2'>MSX 2</option>				
-						</select>&nbsp;
-					</td>
-					<td>
-						<div id='menu.saveMethod'>
-						<small>
-							<label for='saveMethod'>Saving Method:</label>
-							<a class='help' href='manual.html#saveMethod' target='faq'>?</a>
-							<br />
-						</small>
-						<select id='saveMethod'>
-							<option id='saveMethod.mozilla' value='mozilla'>File</option>
-							<option value='cookie'>Cookie</option>
-							<option value='export'>Copy+Paste</option>
-						</select>
-						<a id='saveLink' href='' onclick='return saveAll()'><img id='tool_save' class='action' align='top' src='img/save.png' title='Save' border='0' /></a>
-						<img id='tool_load' class='action' align='top' src='img/load.png' onclick='return loadAll()' title='Load' />
-						</div>
-					</td>
-				</tr>
-				<tr id='notice.remoteAccess'>
-					<td colspan='2' class='info'>
-						Saving to a file only works on a local install
-					</td>
-				</tr>
-			</table>	
-		</td>
-	</tr>
-	<tr>
-		<td colspan='2' style='padding-bottom: 4px'>
-			<!-- <a class='help' href='manual.html#tools' target='faq'>?</a> -->
-			<div>
-				<small id='warning' style='color: red'></small>	
-				<img id='tool_pencil' class='tool' src='img/pencil.gif' onclick='return usePencil()' title='Pencil' />
-				<img id='tool_bucket' class='tool' src='img/bucket.gif' onclick='return useBucket()' title='Bucket' />
-				<img id='tool_picker' class='tool' src='img/picker.gif' onclick='return usePicker()' title='Color Picker' />
-				<img id='tool_circle' class='tool' src='img/circle.png' onclick='return useCircle()' title='Circle' />
-				<!-- <img id='tool_line' class='tool' src='img/line.png' onclick='return useLine()' title='Line' /> -->
-				<img src='img/sep.png' />
-				<img id='tool_undo' class='action' src='img/undo.gif' onclick='return undo()' title='Undo' />
-				<img id='tool_redo' class='action' src='img/redo.gif' onclick='return redo()' title='Redo' />
-				<img src='img/sep.png' />
-				<img src='img/inverse.gif' class='action' onclick='return useInverse()' title='Invert selected color' />
-				<img src='img/fliph.gif' class='action' onclick='return flipHorizontal()' title='Flip Horizontally' />
-				<img src='img/flipv.gif' class='action' onclick='return flipVertical()' title='Flip Vertically' />
-				<img src='img/rot_cw.gif' class='action' onclick='return rotateCW()' title='Rotate Clockwise' />
-				<img src='img/rot_acw.gif' class='action' onclick='return rotateACW()' title='Rotate Anticlockwise' />
-				<img src='img/arrows.gif' usemap='#arrows' border='0' title='Roll (click the arrows)' />
-				<img src='img/sep.png' />
-				<img src='img/copy.png' class='action' onclick='return copySlot()' title='Copy' />
-				<img src='img/paste.png' class='action' onclick='return pasteSlot()' title='Paste' />
-				<img src='img/clear.png' class='action' onclick='return clearGrid()' title='Clear' />
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">
+			<div class="row">
+				<div class="col-3">
+					<img src='img/logo.gif' align='top' />
+				</div>
+				<div class="col">
+					<h1>TinySprite</h1>
+					<small>version 0.5.0</small>
+				</div>
 			</div>
-		</td>
-	</tr>
-	<tr>
-		<td style='border-right: dotted 1px silver'>		
-			<h3>Grid</h3>
-			<div id='grid'></div>
-			
-			<h3>Palette <small id='paletteTip' class='small'>(double-click to edit color) </small></h3>
-			<div id='palette' style='width: 21.5em'></div>
-			<div id='colorEditor' class='colorEditor'></div>
-		</td>		
-		<td style='padding-left: 1em'>
-			<table>
-				<tr>
-					<td><h3>Preview <a class='help' href='manual.html#preview' target='faq'>?</a></h3></td>
-					<td><h3>Slots <a class='help' href='manual.html#slots' target='faq'>?</a></h3></td>
-				</tr>
-				<tr>
-					<td style='padding-right: 16px'>
-						<table cellpadding='0' cellspacing='0'>
-						<tr>
-							<td id='previewLabel0' class='previewLabel'>Slot 0</td>
-							<td id='previewLabel1' class='previewLabel'>Slot 1</td>
-						</tr>
-						<tr>
-							<td><div id='preview0' class='preview'></div></td>
-							<td><div id='preview1' class='preview'></div></td>
-						</tr>
-						<tr>							
-							<td><div id='preview2' class='preview'></div></td>
-							<td><div id='preview3' class='preview'></div></td>
-						</tr>
-						<tr>
-							<td id='previewLabel2' class='previewLabel'>Slot 2</td>
-							<td id='previewLabel3' class='previewLabel'>Slot 3</td>
-						</tr>
-						</table>
-					</td>
-					<td>
-						<!-- slots -->
-						<table>
-							<tr>
-								<td>
-									<select style='width: 10em' id='slots' size='6' ondblclick='return renameSlot()'></select>
-								</td>
-								<td style='font-size: 2px'>
-									<img id='tool_new_slot' class='action' src='img/new.png' onclick='return createSlot()' title='New Slot' /><br /><br />
-									<img id='tool_remove_slot' class='action' src='img/delete.png' onclick='return deleteSlot()' title='Remove Slot' /><br /><br />
-									<img id='tool_rename_slot' class='action' src='img/rename.png' onclick='return renameSlot()' title='Rename Slot' /><br /><br />
-									<img id='tool_import_slot' class='action' src='img/import.png' onclick='return importSlot()' title='Import DATA into Slot' />
-								</td>
-							</tr>
-						</table>
-						
-						<small><br />Background:</small><br />
-						<select id="background" onchange='return selectBackground(this)' />
-					</td>
-				</tr>
-			</table>
+		</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="navbarsExampleDefault">
+			<ul class="navbar-nav mr-auto">
+				<!-- <li class="nav-item active">
+					<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">Link</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link disabled" href="#">Disabled</a>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="https://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+					<div class="dropdown-menu" aria-labelledby="dropdown01">
+						<a class="dropdown-item" href="#">Action</a>
+						<a class="dropdown-item" href="#">Another action</a>
+						<a class="dropdown-item" href="#">Something else here</a>
+					</div>
+				</li> -->
+			</ul>
+			<form class="form-inline my-2 my-lg-0">
+				<label for="projType">Project Type</label>
+				&nbsp;
+				<a class='help' href='manual.html#projType' target='faq'>?</a>
+				&nbsp;
+				<select id="projType" onchange="return onProjTypeChange(this)">
+						<option value="msx1">MSX 1</option>
+						<option value="msx2">MSX 2</option>				
+				</select>
+			</form>
+		</div>
+	</nav>
+
+	<map name="arrows">
+		<area shape="polygon" coords="11,1,31,11,36,1" href="#" onclick="return gridRollUp()" title='Roll Up' />
+		<area shape="polygon" coords="1,1,9,1,14,11,14,13,9,23,1,23" href="#" onclick="return gridRollLeft()" title='Roll Left' />
+		<area shape="polygon" coords="38,1,47,1,47,23,38,23,33,13,33,11" href="#" onclick="return gridRollRight()" title='Roll Right' />
+		<area shape="polygon" coords="17,13,31,13,36,23,11,23" href="#" onclick="return gridRollDown()" title='Roll Down' />
+	</map>			
+
+	<!-- <td>
+		<div id='menu.saveMethod'>
+		<small>
+			<label for='saveMethod'>Saving Method:</label>
+			<a class='help' href='manual.html#saveMethod' target='faq'>?</a>
 			<br />
-			
+		</small>
+		<select id='saveMethod'>
+			<option id='saveMethod.mozilla' value='mozilla'>File</option>
+			<option value='cookie'>Cookie</option>
+			<option value='export'>Copy+Paste</option>
+		</select>
+		<a id='saveLink' href='' onclick='return saveAll()'><img id='tool_save' class='action' align='top' src='img/save.png' title='Save' border='0' /></a>
+		<img id='tool_load' class='action' align='top' src='img/load.png' onclick='return loadAll()' title='Load' />
+		</div>
+	</td> -->
+
+	<main role="main" class="container">
+
+		<small id='warning' style='color: red'></small>
+		<div class="toolbar row">
+			<div class="col">
+				<div class="tool_group">
+					<img id='tool_pencil' class='tool' src='img/pencil.gif' onclick='return usePencil()' title='Pencil' />
+					<img id='tool_bucket' class='tool' src='img/bucket.gif' onclick='return useBucket()' title='Bucket' />
+					<img id='tool_picker' class='tool' src='img/picker.gif' onclick='return usePicker()' title='Color Picker' />
+					<img id='tool_circle' class='tool' src='img/circle.png' onclick='return useCircle()' title='Circle' />
+					<!-- <img id='tool_line' class='tool' src='img/line.png' onclick='return useLine()' title='Line' /> -->
+					<img src='img/sep.png' />
+				</div>
+				<div class="tool_group">
+					<img id='tool_undo' class='action' src='img/undo.gif' onclick='return undo()' title='Undo' />
+					<img id='tool_redo' class='action' src='img/redo.gif' onclick='return redo()' title='Redo' />
+					<img src='img/sep.png' />
+				</div>
+				<div class="tool_group">
+					<img src='img/inverse.gif' class='action' onclick='return useInverse()' title='Invert selected color' />
+					<img src='img/fliph.gif' class='action' onclick='return flipHorizontal()' title='Flip Horizontally' />
+					<img src='img/flipv.gif' class='action' onclick='return flipVertical()' title='Flip Vertically' />
+					<img src='img/rot_cw.gif' class='action' onclick='return rotateCW()' title='Rotate Clockwise' />
+					<img src='img/rot_acw.gif' class='action' onclick='return rotateACW()' title='Rotate Anticlockwise' />
+					<img src='img/arrows.gif' usemap='#arrows' border='0' title='Roll (click the arrows)' />
+					<img src='img/sep.png' />
+				</div>
+				<div class="tool_group">
+					<img src='img/copy.png' class='action' onclick='return copySlot()' title='Copy' />
+					<img src='img/paste.png' class='action' onclick='return pasteSlot()' title='Paste' />
+					<img src='img/clear.png' class='action' onclick='return clearGrid()' title='Clear' />
+				</div>
+			</div>
+		</div>
+
+		<div class="row main_row">
+			<div class="col">
+				<h3>Sprite Grid</h3>
+				<div id='grid'></div>
+				
+				<h3>Palette <small id='paletteTip' class='small'>(double-click to edit color) </small></h3>
+				<div id='palette' style='width: 21.5em'></div>
+				<div id='colorEditor' class='colorEditor'></div>
+			</div>
+			<div class="col">
+				<table>
+					<tr>
+						<td><h3>Preview <a class='help' href='manual.html#preview' target='faq'>?</a></h3></td>
+						<td><h3>Slots <a class='help' href='manual.html#slots' target='faq'>?</a></h3></td>
+					</tr>
+					<tr>
+						<td style='padding-right: 16px'>
+							<table cellpadding='0' cellspacing='0'>
+							<tr>
+								<td id='previewLabel0' class='previewLabel'>Slot 0</td>
+								<td id='previewLabel1' class='previewLabel'>Slot 1</td>
+							</tr>
+							<tr>
+								<td><div id='preview0' class='preview'></div></td>
+								<td><div id='preview1' class='preview'></div></td>
+							</tr>
+							<tr>							
+								<td><div id='preview2' class='preview'></div></td>
+								<td><div id='preview3' class='preview'></div></td>
+							</tr>
+							<tr>
+								<td id='previewLabel2' class='previewLabel'>Slot 2</td>
+								<td id='previewLabel3' class='previewLabel'>Slot 3</td>
+							</tr>
+							</table>
+						</td>
+						<td>
+							<!-- slots -->
+							<table>
+								<tr>
+									<td>
+										<select style='width: 10em' id='slots' size='6' ondblclick='return renameSlot()'></select>
+									</td>
+									<td style='font-size: 2px'>
+										<img id='tool_new_slot' class='action' src='img/new.png' onclick='return createSlot()' title='New Slot' /><br /><br />
+										<img id='tool_remove_slot' class='action' src='img/delete.png' onclick='return deleteSlot()' title='Remove Slot' /><br /><br />
+										<img id='tool_rename_slot' class='action' src='img/rename.png' onclick='return renameSlot()' title='Rename Slot' /><br /><br />
+										<img id='tool_import_slot' class='action' src='img/import.png' onclick='return importSlot()' title='Import DATA into Slot' />
+									</td>
+								</tr>
+							</table>
+							
+							<small><br />Background:</small>
+							<select id="background" onchange='return selectBackground(this)' />
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+
+		<div class="content">
 			<img id='tool_export' class='action' style='position: absolute' src='img/export.png' align='top' onclick='exportWork()' title='Export' />
 			<ul id='tabs' class='tabs'>				
 				<li class="tabSelected"><a href='#' onclick='return showTab(this, "tabExpOptions");'>Export</a></li>
@@ -265,22 +260,35 @@ Also, take a look at the Changelog:
 				<div id='exp' class='exportField'><i>click the Export button <img src='img/export.png' align='top' /></i></div>
 			</div>
 			<br />
-			
 			<!--<div style='padding-top: 4px' id='expColor'></div>-->
-		</td>
-	</tr>
-</table>
-<table class='core' style='width: 760px; background-color: #eee; border-top: solid 1px gray'>
-<tr>
-	<td style='font-size: 10px; color: #333; padding-left: 4px'>
-		Download &raquo; <a class='lowprofLink' href='http://sourceforge.net/project/showfiles.php?group_id=182983&package_id=212302'>TinySprite</a> <span style='color: #222'>|</span>
-		Project &raquo; <a class='lowprofLink' href='http://sourceforge.net/projects/tinysprite'>SourceForge.net</a>
-	</td>
-	<td align='right' style='font-size: 10px; color: #333; padding-right: 4px'>
-		Comments / Patches &raquo; <a class='lowprofLink' href='#' onclick='return email(this)'>Rafael Jannone</a>
-	</td>
-</tr>
-</table>
-<script src='js/app.js'></script>
+		</div>
+	</main>
+
+	<div class="container-fluid">
+		<div class="footer row">
+			<div class="col" style="padding-left: 4px">
+					Project &raquo; <a class='lowprofLink' href="https://github.com/jannone/msx-tinysprite">Github</a>
+			</div>
+			<div class="col" style="text-align: right; padding-right: 4px">
+					Comments / Patches &raquo; <a class='lowprofLink' href='#' onclick='return email(this)'>Rafael Jannone</a>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+	<script src='js/util.js'></script>
+	<script src='js/slots.js'></script>
+	<script src='js/palette.js'></script>
+	<script src='js/grid.js'></script>	
+	<script src='js/gridCanvas.js'></script>		
+	<script src='js/picker.js'></script>
+	<script src='js/drawing.js'></script>
+	<script src='js/colorEditor.js'></script>
+	<script src='js/undo.js'></script>
+	<script src='js/tableMSX2.js'></script>		
+	<script src='js/sprite.js'></script>
+	<script src='js/app.js'></script>
 </body>
 </html>

@@ -44,6 +44,7 @@ GridCanvas.prototype.create = function() {
 	var grid = this;
 
 	this.el = document.createElement('canvas');
+	this.el.className = "gridCanvas";
 	this.el.style.border = (this.small) ? '' : 'solid 1px black';
 	this.el.style.background = (this.small) ? '' : img_blank;
 	this.el.width = this.cellSize * this.size;
@@ -75,28 +76,56 @@ GridCanvas.prototype.create = function() {
 			var rightclick;
 			var pos = grid.evtCoord(e);
 
-			if (e.which) 
+			if (e.which) {
 				rightclick = (e.which == 3);
-			else 
-				if (e.button) 
+			} else {
+				if (e.button) {
 					rightclick = (e.button == 2);
+				}
+			}
 
 			grid.button = (rightclick) ? 2 : 1;
-			if (grid.onMouseDown)
+			if (grid.onMouseDown) {
 				grid.onMouseDown(pos.x, pos.y);
+			}
 			grid.click(null, pos.x, pos.y);
 			return false;
 		}
 	}
 }
 
+GridCanvas.prototype.touchMove = function(e) {
+	if (this.el.onmousemove) {
+		this.el.onmousemove(e)
+	}
+}
+
+GridCanvas.prototype.touchStart = function(e) {
+	console.log("A")
+	if (this.el.onmousedown) {
+		console.log("B")
+		this.el.onmousedown(e)
+	}
+}
+
 GridCanvas.prototype.evtCoord = function(e) {
 	var sz = this.size;
-	var ox = getOffsetLeft(this.el);
-	var oy = getOffsetTop(this.el) - document.body.scrollTop;
-	var x = Math.floor((e.clientX - ox) / this.cellSize);
-	var y = Math.floor((e.clientY - oy) / this.cellSize);
-	return {x: (x >= sz) ? sz-1 : x, y: (y >= sz) ? sz-1 : y };
+	var rect = this.el.getBoundingClientRect();
+	var ox, oy;
+	if (e.touches && e.touches.length > 0) {
+		var touch = e.touches[0];
+		ox = touch.clientX - rect.left;
+		oy = touch.clientY - rect.top;		
+	} else {
+		ox = e.clientX - rect.left;
+		oy = e.clientY - rect.top;
+	}
+	var x = Math.floor(ox / this.cellSize);
+	var y = Math.floor(oy / this.cellSize);
+	return {
+		x: (x >= sz) ? sz-1 : x, 
+		y: (y >= sz) ? sz-1 : y
+	};
 }
 
 GridCanvas.prototype.releaseButton = function() {

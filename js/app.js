@@ -30,7 +30,7 @@ var colorEditor = null;
 
 var slots = new Slots(eid('slots'));
 
-slots.onChange = function() {
+slots.onChange = function () {
 	var slot = slots.getSelected();
 	if (slot != null) {
 		grid.drawing = slot.drawing;
@@ -41,7 +41,7 @@ slots.onChange = function() {
 			preview.slot = slot.id;
 			updatePreviewLabel(preview);
 			preview.updateGrid();
-		}			
+		}
 	}
 }
 
@@ -49,7 +49,7 @@ slots.onChange = function() {
 
 function setupPreview(id, p) {
 	p.previewId = id;
-	p.el.onclick = function() {
+	p.el.onclick = function () {
 		selectPreview(id);
 	}
 }
@@ -69,7 +69,7 @@ function updatePreviews(force) {
 		p.drawing = (slot) ? slot.drawing : null;
 		if (p.drawing)
 			p.drawing.dirty = false;
-	}	
+	}
 }
 
 function selectTool(toolid) {
@@ -77,25 +77,25 @@ function selectTool(toolid) {
 		tool.className = 'tool';
 	tool = eid(toolid);
 	tool.className = 'toolSelected';
-	
+
 	grid.onMouseDown = null;
 	grid.onMouseUp = null;
-	
+
 	if (toolid == 'tool_pencil') {
-		grid.onMouseDown = function() {
+		grid.onMouseDown = function () {
 			var current = grid.drawing;
-			var saved = current.clone();			
-			grid.onMouseUp = function() {
+			var saved = current.clone();
+			grid.onMouseUp = function () {
 				var before = saved;
 				var after = current.clone();
-		
-				var redoFunc = function() {
+
+				var redoFunc = function () {
 					current.copy(after);
 				}
-				var undoFunc = function() {
-					current.copy(before);			
-				}			
-				Undo.save("Pencil", undoFunc, redoFunc);			
+				var undoFunc = function () {
+					current.copy(before);
+				}
+				Undo.save("Pencil", undoFunc, redoFunc);
 			}
 		}
 	}
@@ -135,11 +135,11 @@ function email(el) {
 
 function gridRollUp() {
 	var current = grid.drawing;
-	
-	var redoFunc = function() {
+
+	var redoFunc = function () {
 		current.rollUp();
-	}	
-	var undoFunc = function() {
+	}
+	var undoFunc = function () {
 		current.rollDown();
 	}
 	Undo.runSave("Roll Up", undoFunc, redoFunc);
@@ -149,10 +149,10 @@ function gridRollUp() {
 function gridRollDown() {
 	var current = grid.drawing;
 
-	var redoFunc = function() {
+	var redoFunc = function () {
 		current.rollDown();
-	}	
-	var undoFunc = function() {
+	}
+	var undoFunc = function () {
 		current.rollUp();
 	}
 	Undo.runSave("Roll Down", undoFunc, redoFunc);
@@ -162,10 +162,10 @@ function gridRollDown() {
 function gridRollLeft() {
 	var current = grid.drawing;
 
-	var redoFunc = function() {
+	var redoFunc = function () {
 		current.rollLeft();
-	}	
-	var undoFunc = function() {
+	}
+	var undoFunc = function () {
 		current.rollRight();
 	}
 	Undo.runSave("Roll Left", undoFunc, redoFunc);
@@ -175,10 +175,10 @@ function gridRollLeft() {
 function gridRollRight() {
 	var current = grid.drawing;
 
-	var redoFunc = function() {
+	var redoFunc = function () {
 		current.rollRight();
-	}	
-	var undoFunc = function() {
+	}
+	var undoFunc = function () {
 		current.rollLeft();
 	}
 	Undo.runSave("Roll Right", undoFunc, redoFunc);
@@ -188,30 +188,30 @@ function gridRollRight() {
 function flipHorizontal() {
 	var current = grid.drawing;
 
-	var func = function() {
+	var func = function () {
 		current.flipHorizontal();
-	}	
+	}
 	Undo.runSave("Flip Horizontal", func, func);
-	return false;	
+	return false;
 }
 
 function flipVertical() {
 	var current = grid.drawing;
 
-	var func = function() {
+	var func = function () {
 		current.flipVertical();
-	}	
+	}
 	Undo.runSave("Flip Vertical", func, func);
-	return false;	
+	return false;
 }
 
 function rotateCW() {
 	var current = grid.drawing;
 
-	var redoFunc = function() {
+	var redoFunc = function () {
 		current.rotateCW();
-	}	
-	var undoFunc = function() {
+	}
+	var undoFunc = function () {
 		current.rotateACW();
 	}
 	Undo.runSave("Rotate Clockwise", undoFunc, redoFunc);
@@ -221,10 +221,10 @@ function rotateCW() {
 function rotateACW() {
 	var current = grid.drawing;
 
-	var redoFunc = function() {
+	var redoFunc = function () {
 		current.rotateACW();
-	}	
-	var undoFunc = function() {
+	}
+	var undoFunc = function () {
 		current.rotateCW();
 	}
 	Undo.runSave("Rotate Anticlockwise", undoFunc, redoFunc);
@@ -250,15 +250,15 @@ function updateUndo() {
 	var tool_undo = eid('tool_undo');
 	var tool_redo = eid('tool_redo');
 	if (Undo.canUndo()) {
-		if (iDocID != null) {
-			parent.app.moduleDocumentChanged(iDocID);
-		}	
+		// if (iDocID != null) {
+		// 	parent.app.moduleDocumentChanged(iDocID);
+		// }
 		var next = Undo.getNextUndo();
 		undo_title = next.desc;
 	} else {
-		if (iDocID != null) {
-			parent.app.moduleDocumentChanged(iDocID, true);
-		}	
+		// if (iDocID != null) {
+		// 	parent.app.moduleDocumentChanged(iDocID, true);
+		// }	
 	}
 	if (Undo.canRedo()) {
 		var next = Undo.getNextRedo();
@@ -266,9 +266,9 @@ function updateUndo() {
 	}
 	tool_undo.setAttribute('title', (undo_title) ? ('Undo "' + undo_title + '"') : 'Undo');
 	tool_redo.setAttribute('title', (redo_title) ? ('Redo "' + redo_title + '"') : 'Redo');
-	
+
 	setOpacity(tool_undo, (undo_title) ? 100 : 30);
-	setOpacity(tool_redo, (redo_title) ? 100 : 30);	
+	setOpacity(tool_redo, (redo_title) ? 100 : 30);
 }
 
 function usePencil() {
@@ -278,18 +278,18 @@ function usePencil() {
 
 function useBucket() {
 	selectTool('tool_bucket');
-	grid.click = function(el, x, y) {
+	grid.click = function (el, x, y) {
 		this.releaseButton();
-	
+
 		var saved = grid.drawing.clone();
 		var current = grid.drawing;
 		var color = grid.color;
-		
-		var redoFunc = function() {
+
+		var redoFunc = function () {
 			var lookfor = current.pixels[y][x];
-			current.paint(x, y, color, lookfor);			
+			current.paint(x, y, color, lookfor);
 		}
-		var undoFunc = function() {
+		var undoFunc = function () {
 			// we can't just assign pixels, because a redo would paint over our saved copy
 			current.copy(saved);
 		}
@@ -299,7 +299,7 @@ function useBucket() {
 
 function usePicker() {
 	selectTool('tool_picker');
-	grid.click = function(el, x, y) {
+	grid.click = function (el, x, y) {
 		var pix = grid.drawing.pixels[y][x];
 		picker.selectColor(pix);
 	}
@@ -307,26 +307,26 @@ function usePicker() {
 
 function useCircle() {
 	selectTool('tool_circle');
-	grid.click = function(el, x, y) {
+	grid.click = function (el, x, y) {
 		this.releaseButton();
-		
+
 		var rad = prompt("Circle radius?");
 		if (!rad)
 			return;
 		try {
 			rad = parseInt(rad, 10);
-		} catch(e) {
+		} catch (e) {
 			return;
 		}
-	
+
 		var saved = grid.drawing.clone();
 		var current = grid.drawing;
 		var color = grid.color;
-		
-		var redoFunc = function() {
-			current.circle(x, y, rad, color);			
+
+		var redoFunc = function () {
+			current.circle(x, y, rad, color);
 		}
-		var undoFunc = function() {
+		var undoFunc = function () {
 			current.copy(saved);
 		}
 		Undo.runSave("Circle", undoFunc, redoFunc);
@@ -338,10 +338,10 @@ function useInverse() {
 	var current = grid.drawing;
 	var color = grid.color;
 
-	var redoFunc = function() {
+	var redoFunc = function () {
 		current.inverse(color);
 	}
-	var undoFunc = function() {
+	var undoFunc = function () {
 		current.copy(saved);
 	}
 	Undo.runSave("Inverse", undoFunc, redoFunc);
@@ -351,25 +351,25 @@ function useInverse() {
 function useLine() {
 	selectTool('tool_line');
 	var lx = null, ly = null;
-	grid.click = function(el, x, y) {
+	grid.click = function (el, x, y) {
 		this.releaseButton();
-		
+
 		if (lx == null && ly == null) {
 			lx = x;
 			ly = y;
 			return;
 		}
-		
+
 		var saved = grid.drawing.clone();
 		var current = grid.drawing;
 		var color = grid.color;
-		
-		var redoFunc = function() {
+
+		var redoFunc = function () {
 			current.line(lx, ly, x, y, color);
 			lx = x; ly = y;
-			
+
 		}
-		var undoFunc = function() {
+		var undoFunc = function () {
 			current.copy(saved);
 		}
 		Undo.runSave("Line", undoFunc, redoFunc);
@@ -392,7 +392,7 @@ function selectBackground(el) {
 	var bk = el.value;
 	grid.el.style.backgroundColor = grid.colors[bk];
 	for (var k in previews)
-		previews[k].el.style.backgroundColor = grid.colors[bk];	
+		previews[k].el.style.backgroundColor = grid.colors[bk];
 }
 
 function selectPreview(id) {
@@ -409,13 +409,13 @@ function clearGrid() {
 	if (r) {
 		var current = grid.drawing;
 		var saved = grid.drawing.clone();
-		var undoFunc = function() {
+		var undoFunc = function () {
 			current.copy(saved);
 		}
-		var redoFunc = function() {
+		var redoFunc = function () {
 			current.clear();
 		}
-		Undo.runSave("Clear Drawing", undoFunc, redoFunc);		
+		Undo.runSave("Clear Drawing", undoFunc, redoFunc);
 	}
 	return true;
 }
@@ -431,7 +431,7 @@ function deleteSlot() {
 		var name = slot.getName();
 		var r = confirm("This can't be undone. Really DELETE the '" + name + "'?");
 		if (r)
-			slots.remove(slot);		
+			slots.remove(slot);
 	}
 }
 
@@ -444,7 +444,7 @@ function renameSlot() {
 			slot.setName(newname);
 			updatePreviews();
 		}
-	}	
+	}
 }
 
 function onProjTypeChange(el) {
@@ -465,7 +465,7 @@ function projTypeChanged() {
 	palette.sigzero = type2;
 	paletteTip.style.visibility = (type2) ? 'visible' : 'hidden';
 	if (type2) {
-		effectMovingArrow(paletteTip);		
+		effectMovingArrow(paletteTip);
 	} else {
 		palette.copy(msx1Palette);
 		colorEditor.hide();
@@ -474,15 +474,15 @@ function projTypeChanged() {
 }
 
 function projectEncode() {
-	var x,y,s;
+	var x, y, s;
 	var msx1 = (eid('projType').value == 'msx1');
 	var enc = new Array();
-	
+
 	if (!palette.isEqual(msx1Palette)) {
 		enc.push('!palette');
 		enc.push(palette.encodeColors().join(","));
 	}
-	
+
 	for (s in slots.items) {
 		var hex = slots.items[s].save(msx1);
 		if (hex != null) {
@@ -491,84 +491,84 @@ function projectEncode() {
 			enc.push(hex);
 		}
 	}
-	
+
 	if (enc.length) {
-		enc.unshift(eid('projType').value); 
-		enc.unshift('!type');	
+		enc.unshift(eid('projType').value);
+		enc.unshift('!type');
 	}
-	
+
 	return enc.join("\n");
 }
 
 function saveMozilla(file) {
-	if ( file.exists() == false )
-		file.create( Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 420 );
+	if (file.exists() == false)
+		file.create(Components.interfaces.nsIFile.NORMAL_FILE_TYPE, 420);
 	var outputStream = Components.classes["@mozilla.org/network/file-output-stream;1"]
-		.createInstance( Components.interfaces.nsIFileOutputStream );
-	outputStream.init( file, 0x02 | 0x08 | 0x20, 420, 0 );
+		.createInstance(Components.interfaces.nsIFileOutputStream);
+	outputStream.init(file, 0x02 | 0x08 | 0x20, 420, 0);
 	var output = projectEncode();
-	var result = outputStream.write( output, output.length );
+	var result = outputStream.write(output, output.length);
 	outputStream.close();
-	
+
 	ff_file = file;
 }
 
 function loadMozilla(file) {
-	if ( file.exists() == false ) {
+	if (file.exists() == false) {
 		alert("File does not exist");
 		return;
 	}
 	var is = Components.classes["@mozilla.org/network/file-input-stream;1"]
-		.createInstance( Components.interfaces.nsIFileInputStream );
-	is.init( file,0x01, 00004, null);
+		.createInstance(Components.interfaces.nsIFileInputStream);
+	is.init(file, 0x01, 00004, null);
 	var sis = Components.classes["@mozilla.org/scriptableinputstream;1"]
-		.createInstance( Components.interfaces.nsIScriptableInputStream );
-	sis.init( is );
-	var enc = sis.read( sis.available() );
+		.createInstance(Components.interfaces.nsIScriptableInputStream);
+	sis.init(is);
+	var enc = sis.read(sis.available());
 	receiveTXT(enc);
-	
+
 	ff_file = file;
 }
 
 function saveAll() {
 	var saveMethod = eid('saveMethod').value;
-	
+
 	if (saveMethod == 'cookie') {
 		eraseCookie("saved");
 		createCookie("saved", projectEncode(), 36500); // 100 years of pain :)
-		alert("Saved :)");	
+		alert("Saved :)");
 	} else
-	if (saveMethod == 'export') {
-		exportTXT();
-	} else
-	if (saveMethod == 'dataurl') {
-		var str = projectEncode();
-		var strBase64 = btoa(str);
-		var strURL = escape(str);		
-		eid('saveLink').href = 'data:application/octet-stream;' + 
-			((strBase64.length < strURL.length) ? 'base64,' + strBase64 : ',' + strURL);
-	} else
-	if (saveMethod == 'mozilla') {	
-		try {
-			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-		} catch (e) {
-			alert("Can't save Project: " + e);
-			return;
-		}
+		if (saveMethod == 'export') {
+			exportTXT();
+		} else
+			if (saveMethod == 'dataurl') {
+				var str = projectEncode();
+				var strBase64 = btoa(str);
+				var strURL = escape(str);
+				eid('saveLink').href = 'data:application/octet-stream;' +
+					((strBase64.length < strURL.length) ? 'base64,' + strBase64 : ',' + strURL);
+			} else
+				if (saveMethod == 'mozilla') {
+					try {
+						netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+					} catch (e) {
+						alert("Can't save Project: " + e);
+						return;
+					}
 
-		var nsIFilePicker = Components.interfaces.nsIFilePicker;
-		var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-		fp.init(window, "Save Project", nsIFilePicker.modeSave);
-		fp.defaultExtension = "txt";
-		fp.appendFilter("Sprite project (.txt)","*.txt");
+					var nsIFilePicker = Components.interfaces.nsIFilePicker;
+					var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+					fp.init(window, "Save Project", nsIFilePicker.modeSave);
+					fp.defaultExtension = "txt";
+					fp.appendFilter("Sprite project (.txt)", "*.txt");
 
-		var res = fp.show();
-		if (res == nsIFilePicker.returnOK || res == nsIFilePicker.returnReplace){
-			saveMozilla(fp.file);
-			alert("File saved :)");
-		}
-	}
-	return false;	
+					var res = fp.show();
+					if (res == nsIFilePicker.returnOK || res == nsIFilePicker.returnReplace) {
+						saveMozilla(fp.file);
+						alert("File saved :)");
+					}
+				}
+	return false;
 }
 
 function loadAll() {
@@ -585,30 +585,30 @@ function loadAll() {
 			projectDecode(c);
 		}
 	} else
-	if (saveMethod == 'export') {
-		importTXT();
-		return;
-	} else
-	if (saveMethod == 'mozilla') {
-		try {
-			netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
-		} catch (e) {
-			alert("Can't load Project: " + e);
+		if (saveMethod == 'export') {
+			importTXT();
 			return;
-		}
+		} else
+			if (saveMethod == 'mozilla') {
+				try {
+					netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");
+				} catch (e) {
+					alert("Can't load Project: " + e);
+					return;
+				}
 
-		var nsIFilePicker = Components.interfaces.nsIFilePicker;
-		var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
-		fp.init(window, "Load Project", nsIFilePicker.modeOpen);
-		fp.defaultExtension = "txt";
-		fp.appendFilter("Sprite project (.txt)","*.txt");
+				var nsIFilePicker = Components.interfaces.nsIFilePicker;
+				var fp = Components.classes["@mozilla.org/filepicker;1"].createInstance(nsIFilePicker);
+				fp.init(window, "Load Project", nsIFilePicker.modeOpen);
+				fp.defaultExtension = "txt";
+				fp.appendFilter("Sprite project (.txt)", "*.txt");
 
-		var res = fp.show();
-		if (res == nsIFilePicker.returnOK || res == nsIFilePicker.returnReplace){
-			loadMozilla(fp.file);
-		}
-	}
-	
+				var res = fp.show();
+				if (res == nsIFilePicker.returnOK || res == nsIFilePicker.returnReplace) {
+					loadMozilla(fp.file);
+				}
+			}
+
 	selectPreview(0);
 	slots.selectIndex(0);
 }
@@ -622,10 +622,10 @@ function pasteSlot() {
 		var current = grid.drawing;
 		var saved = current.clone();
 		var clip = clipboard.clone();
-		var redoFunc = function() {
+		var redoFunc = function () {
 			current.overlay(clip);
 		}
-		var undoFunc = function() {
+		var undoFunc = function () {
 			current.copy(saved);
 		}
 		Undo.runSave("Paste", undoFunc, redoFunc);
@@ -646,32 +646,31 @@ function projectDecode(c) {
 			slot.setName(name);
 			enc = '';
 			next = 'slot';
-		} else 
-		if (line.charAt(0) == '!') {
-			var next = line.substring(1, line.length);			
 		} else
-		{
-			switch (next) {
-				case 'slot':
-					enc += line;
-					if (enc.length >= 256)
-						slot.load(enc);
-					break;
-				case 'palette':
-					palette.decodeColors(line);
-					next = null;
-					break;
-				case 'type':
-					if (line == 'msx1' || line == 'msx2') {
-						eid('projType').value = line;
-						projTypeChanged();
-					}
-					next = null;
-					break;
+			if (line.charAt(0) == '!') {
+				var next = line.substring(1, line.length);
+			} else {
+				switch (next) {
+					case 'slot':
+						enc += line;
+						if (enc.length >= 256)
+							slot.load(enc);
+						break;
+					case 'palette':
+						palette.decodeColors(line);
+						next = null;
+						break;
+					case 'type':
+						if (line == 'msx1' || line == 'msx2') {
+							eid('projType').value = line;
+							projTypeChanged();
+						}
+						next = null;
+						break;
+				}
 			}
-		}
 	}
-	colorEditor.updateGUI();	
+	colorEditor.updateGUI();
 	updatePreviews();
 }
 
@@ -698,7 +697,7 @@ function exportWork() {
 			result = (exp != null) ? exp : "";
 		}
 	}
-	
+
 	var el = eid('exp');
 	if (result == "")
 		el.innerHTML = "<i>Nothing to export</i>";
@@ -712,7 +711,7 @@ function exportWork() {
 				stepLine = parseInt(eid('basic.step').value, 10);
 				if (isNaN(stepLine))
 					stepLine = 10;
-		
+
 				var r = result.split("\n");
 				for (var k in r) {
 					if (r[k] != "") {
@@ -721,8 +720,8 @@ function exportWork() {
 					}
 				}
 				result = r.join("\n");
-			}			
-			
+			}
+
 			if (eid('basic.includeLoader').checked) {
 				result += startLine + " DATA *\n";
 				startLine += stepLine;
@@ -733,7 +732,7 @@ function exportWork() {
 					var reader = (etype == 'data') ? "VAL(\"&H\"+R$)" : "VAL(R$)";
 					result += (startLine + stepLine * 0) + " REM -- LOAD SPRITES\n" +
 						(startLine + stepLine * 1) + " S=BASE(9)\n" +
-						(startLine + stepLine * 2) + " READ R$: IF R$=\"*\" THEN RETURN ELSE VPOKE S,"+ reader +
+						(startLine + stepLine * 2) + " READ R$: IF R$=\"*\" THEN RETURN ELSE VPOKE S," + reader +
 						":S=S+1:GOTO " + (startLine + stepLine * 2) + "\n";
 				} else {
 					result += startLine + " REM -- MSX2 LOADER NOT YET IMPLEMENTED\n";
@@ -743,7 +742,7 @@ function exportWork() {
 		el.innerHTML = result.replace(/\n/g, '<br />');
 	}
 	showTab(1, 'tabExpCode');
-	
+
 	return result;
 }
 
@@ -753,7 +752,7 @@ function exportTXT() {
 		alert('All slots are empty');
 		return;
 	}
-	
+
 	var exp = eid('exp');
 	exp.innerHTML = txt.replace(/\n/g, "<br />");
 
@@ -771,60 +770,60 @@ function importSlot() {
 }
 
 function receiveTXT(txt, loc) {
-	if (loc.indexOf("?slot")>=0) {
+	if (loc.indexOf("?slot") >= 0) {
 		var values = [];
 		txt = txt.replace(/([0-9]+ )?data/ig, '').replace(/&h/ig, '');
-		txt.replace(/[0-9a-f][0-9a-f]/ig, function(m) { values.push(parseInt(m, 16)); return ''; });
+		txt.replace(/[0-9a-f][0-9a-f]/ig, function (m) { values.push(parseInt(m, 16)); return ''; });
 		var slot = slots.getSelected();
 		slot.import_(values, grid.color);
-	} else	
-	if (txt != "") {
-		slots.clear();
-		projectDecode(txt);
-		selectPreview(0);
-		slots.selectIndex(0);
-		grid.updateGrid();
-	}
+	} else
+		if (txt != "") {
+			slots.clear();
+			projectDecode(txt);
+			selectPreview(0);
+			slots.selectIndex(0);
+			grid.updateGrid();
+		}
 }
 
-function exportFile() {
-	var r = exportWork();
-	if (iDocID != null && r != "") {
-		var etype = eid('expType').value;
-		switch (etype) {
-			case 'hex':
-			case 'bin':
-				etype = 'asm';
-				break;
-			default:
-				etype = 'txt';
-				break;
-		}
-		var aFile = parent.app.moduleGetDocument(iDocID);
-		var sPath = aFile.sPath.replace(/\.[^\.]*$/, '') + '.' + etype;
-		parent.app.moduleGeneration(sPath, r);
-	}
-}
+// function exportFile() {
+// 	var r = exportWork();
+// 	if (iDocID != null && r != "") {
+// 		var etype = eid('expType').value;
+// 		switch (etype) {
+// 			case 'hex':
+// 			case 'bin':
+// 				etype = 'asm';
+// 				break;
+// 			default:
+// 				etype = 'txt';
+// 				break;
+// 		}
+// 		var aFile = parent.app.moduleGetDocument(iDocID);
+// 		var sPath = aFile.sPath.replace(/\.[^\.]*$/, '') + '.' + etype;
+// 		parent.app.moduleGeneration(sPath, r);
+// 	}
+// }
 
 // app setup
 
 var msx1Palette = new Palette();
-msx1Palette.add(255,255,255,		'None');
-msx1Palette.add(0,0,0,		'Black');
-msx1Palette.add(33,200,66,		'Green');
-msx1Palette.add(94,220,120,		'Green (light)');
-msx1Palette.add(84,85,237,		'Blue (dark)');
-msx1Palette.add(125,118,252,		'Blue');
-msx1Palette.add(212,82,77,		'Red (dark)');
-msx1Palette.add(66,235,245,		'Cyan');
-msx1Palette.add(252,85,84,		'Red');
-msx1Palette.add(255,121,120,		'Red (light)');
-msx1Palette.add(212,193,84,		'Yellow (dark)');
-msx1Palette.add(230,206,128,		'Yellow');
-msx1Palette.add(33,176,59,		'Green (dark)');
-msx1Palette.add(201,91,186,		'Purple');
-msx1Palette.add(204,204,204,		'Gray');
-msx1Palette.add(255,255,255,		'White');
+msx1Palette.add(255, 255, 255, 'None');
+msx1Palette.add(0, 0, 0, 'Black');
+msx1Palette.add(33, 200, 66, 'Green');
+msx1Palette.add(94, 220, 120, 'Green (light)');
+msx1Palette.add(84, 85, 237, 'Blue (dark)');
+msx1Palette.add(125, 118, 252, 'Blue');
+msx1Palette.add(212, 82, 77, 'Red (dark)');
+msx1Palette.add(66, 235, 245, 'Cyan');
+msx1Palette.add(252, 85, 84, 'Red');
+msx1Palette.add(255, 121, 120, 'Red (light)');
+msx1Palette.add(212, 193, 84, 'Yellow (dark)');
+msx1Palette.add(230, 206, 128, 'Yellow');
+msx1Palette.add(33, 176, 59, 'Green (dark)');
+msx1Palette.add(201, 91, 186, 'Purple');
+msx1Palette.add(204, 204, 204, 'Gray');
+msx1Palette.add(255, 255, 255, 'White');
 
 var palette = msx1Palette.clone();
 
@@ -835,7 +834,7 @@ var palette = msx1Palette.clone();
 var grid = new GridCanvas(16);
 grid.setPalette(palette);
 divgrid.appendChild(grid.el);
-grid.onPencil = function(x, y, v) {
+grid.onPencil = function (x, y, v) {
 	for (var i = 0; i < 4; i++) {
 		if (previews[i].drawing == grid.drawing) {
 			previews[i].setCellXY(x, y, v);
@@ -844,7 +843,7 @@ grid.onPencil = function(x, y, v) {
 }
 
 var picker = new Picker(palette);
-picker.onclick = function(value) {
+picker.onclick = function (value) {
 	grid.setColor(value);
 }
 picker.selectColor(1);
@@ -862,15 +861,15 @@ var previews = new Array();
 for (var i = 0; i < 4; i++) {
 	var div = eid('preview' + i);
 
-  // previews[i] = (useCanvas) ? new GridCanvas(16, true) : new Grid(16, true);
-  previews[i] = new GridCanvas(16, true);
+	// previews[i] = (useCanvas) ? new GridCanvas(16, true) : new Grid(16, true);
+	previews[i] = new GridCanvas(16, true);
 	previews[i].setPalette(palette);
-	
+
 	var p = previews[i];
 	setupPreview(i, p);
 	p.slot = i;
 	p.pixels = slots.items[i].drawing;
-	
+
 	divpreview[i] = div;
 	div.appendChild(p.el);
 }
@@ -887,24 +886,25 @@ selectBackground(eid('background'));
 
 showExpOptions(eid('expType'));
 
-var removeFileMethod = (is_opera || is_ie);
+// var removeFileMethod = (is_opera || is_ie);
 
-if (document.location.href.substring(0,4).toLowerCase() == 'file') {
-	var remote = eid('notice.remoteAccess');
-	remote.style.display = 'none';
-} else
-	removeFileMethod = true;
+// if (document.location.href.substring(0,4).toLowerCase() == 'file') {
+// 	var remote = eid('notice.remoteAccess');
+// 	remote.style.display = 'none';
+// } else {
+// 	removeFileMethod = true;
+// }
 
-if (removeFileMethod) {
-	// remove Mozilla saveMethod
-	var saveMethodMoz = eid('saveMethod.mozilla');
-	saveMethodMoz.parentNode.removeChild(saveMethodMoz);
-}
+// if (removeFileMethod) {
+// 	// remove Mozilla saveMethod
+// 	var saveMethodMoz = eid('saveMethod.mozilla');
+// 	saveMethodMoz.parentNode.removeChild(saveMethodMoz);
+// }
 
 // undo setup
 
 Undo.onClear = Undo.onSave = updateUndo;
-Undo.onUndo = Undo.onRedo = function() {
+Undo.onUndo = Undo.onRedo = function () {
 	if (grid.drawing.dirty)
 		grid.updateGrid();
 	updateUndo();
@@ -916,7 +916,7 @@ updateUndo();
 
 colorEditor = new ColorEditor(eid('colorEditor'), palette);
 
-picker.ondblclick = function(value) {
+picker.ondblclick = function (value) {
 	if (eid('projType').value == 'msx1')
 		return;
 
@@ -929,14 +929,14 @@ picker.ondblclick = function(value) {
 			colorEditor.show();
 		offsetY = -colorEditor.height;
 	}
-		
+
 	colorEditor.move(getOffsetLeft(el_cell), getOffsetTop(el_cell) + offsetY);
-	
+
 	var color = picker.palette.get333(value);
 	colorEditor.setFields(color.r, color.g, color.b);
-	
-	colorEditor.show();	
-	colorEditor.focus();	
+
+	colorEditor.show();
+	colorEditor.focus();
 	colorEditor.current = value;
 }
 
@@ -967,42 +967,63 @@ showTab(0, 'tabExpOptions');
 
 // mouse setup
 
-window.onmouseup = function() {
+window.onmouseup = function () {
 	grid.releaseButton();
 	colorEditor.hide();
 }
 
+// touch setup
+
+var blockScroll = false;
+$(window).on('touchstart', function (e) {
+	if ($(e.target).closest('.gridCanvas').length == 1) {
+		blockScroll = true;
+		grid.touchStart(e);
+	}
+});
+$(window).on('touchend', function () {
+	blockScroll = false;
+});
+$(window).on('touchmove', function (e) {
+	if (blockScroll) {
+		e.preventDefault();
+		if ($(e.target).closest('.gridCanvas').length == 1) {
+			grid.touchMove(e);
+		}
+	}
+});
+
 /* MSXGDE */
 
-var iDocID = null;
-if (parent.app) {
-	eid('menu.saveMethod').style.display='none';
-	eid('notice.remoteAccess').style.display='none';
+// var iDocID = null;
+// if (parent.app) {
+// 	eid('menu.saveMethod').style.display='none';
+// 	eid('notice.remoteAccess').style.display='none';
 
-	iDocID = parent.app.moduleDocID(document.location);
-	if (iDocID != null) {
-		var aEntryPoints = {
-			loadDocument: function(aDoc, sData) {
-				slots.clear();
-				if (sData.length) {
-					projectDecode(sData);
-				} else {
-					createSlot();
-					createSlot();
-					createSlot();
-					createSlot();										
-				}				
-				selectPreview(0);
-				slots.selectIndex(0);				
-			},
-			saveDocument: function(aDoc) {
-				return projectEncode();
-			},
-			onSaveDocumentSuccess: function() {
-				Undo.clear();
-			}
-		}
-		parent.app.moduleSetMenubar(iDocID, eid('divTopMenuProto'));
-		parent.app.moduleInit(iDocID, aEntryPoints);
-	}
-}
+// 	iDocID = parent.app.moduleDocID(document.location);
+// 	if (iDocID != null) {
+// 		var aEntryPoints = {
+// 			loadDocument: function(aDoc, sData) {
+// 				slots.clear();
+// 				if (sData.length) {
+// 					projectDecode(sData);
+// 				} else {
+// 					createSlot();
+// 					createSlot();
+// 					createSlot();
+// 					createSlot();										
+// 				}				
+// 				selectPreview(0);
+// 				slots.selectIndex(0);				
+// 			},
+// 			saveDocument: function(aDoc) {
+// 				return projectEncode();
+// 			},
+// 			onSaveDocumentSuccess: function() {
+// 				Undo.clear();
+// 			}
+// 		}
+// 		parent.app.moduleSetMenubar(iDocID, eid('divTopMenuProto'));
+// 		parent.app.moduleInit(iDocID, aEntryPoints);
+// 	}
+// }

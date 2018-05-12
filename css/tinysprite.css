@@ -1,10 +1,37 @@
 body, td {
-	font-family: verdana, tahoma, arial;
-	font-size: 13px;
+	/* font-family: verdana, tahoma, arial; */
+	/* font-size: 13px; */
 }
 
 body {
-	margin: 0px;
+	/* margin: 0px; */
+}
+
+.navbar-brand {
+	font-family: verdana, tahoma, arial;
+}
+
+.navbar-brand h1 {
+	font-style: normal;
+	font-size: 26px;
+	font-weight: 700;
+	line-height: normal;
+	margin-bottom: 0;
+}
+
+.navbar-brand small {
+	display: block;
+	font-style: normal;
+	font-size: 10px;
+	font-weight: 400;
+	line-height: normal;
+	text-align: right;
+	margin-right: 18px;
+}
+
+.navbar label {
+	font-size: 10px;
+	color: white;
 }
 
 .core {
@@ -13,6 +40,10 @@ body {
 
 td {
 	vertical-align: top;
+}
+
+h3 {
+	font-size: 18px;
 }
 
 h3, h4, h5 {
@@ -49,6 +80,14 @@ h3, h4, h5 {
 	height: 64px;
 }
 
+.main_row {
+	max-width: 760px;
+}
+
+.preview, .previewSelected {
+	height: 65px;
+}
+
 .previewSelected {
 	border: solid 1px #7d76fc;
 	cursor: pointer;	
@@ -83,7 +122,7 @@ h3, h4, h5 {
 	background-color: lightyellow;
 	border: dashed 1px orange;
 	overflow: auto;
-	font-family: mono;
+	font-family: "Courier New", Courier, monospace;
 	font-size: 11px;
 }
 
@@ -95,6 +134,16 @@ h3, h4, h5 {
 .previewCell {
 	width: 4px;
 	height: 4px;
+}
+
+.toolbar {
+	margin-top: 8px;
+	margin-bottom: 8px;
+}
+
+.tool_group {
+	display: inline;
+	white-space: nowrap;
 }
 
 .tool, .toolSelected {
@@ -134,6 +183,7 @@ h3, h4, h5 {
 	display: none;
 	position: absolute;
 	width: 256px;	
+	z-index: 10;
 }
 
 .lowprofLink {
@@ -153,7 +203,7 @@ h3, h4, h5 {
 	border-left: solid 1px #ccc;
 	border-right: solid 1px #ccc;
 	border-bottom: solid 1px #ccc;		
-	width: 34em; 
+	width: 100%; 
 	height: 11em;	
 }
 
@@ -196,3 +246,17 @@ h3, h4, h5 {
 	background-color: #fff;
 }
 
+.footer {
+	background-color: #eee; 
+	border-top: solid 1px gray;
+	font-size: 10px;
+	color: #333;
+}
+
+.gridCanvas {
+	touch-action: none;
+}
+
+#palette {
+	margin-bottom: 10px;
+}

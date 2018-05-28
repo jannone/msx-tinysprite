@@ -38,6 +38,7 @@ Slot.prototype.getName = function() {
 Slot.prototype.export_ = function(ptype, etype) {
 	var result = "";
 	var sprites;
+	var colors = [];
 	if (ptype == 'msx2') {
 		sprites = Exporter.toMSX2(this.drawing.pixels);		
 		for (var sp in sprites) {
@@ -54,13 +55,17 @@ Slot.prototype.export_ = function(ptype, etype) {
 			var sprite = sprites[sp];
 			var mask = sprite.exportMask(etype);
 			result += langComment(etype, "color " + sprite.color) + "\n" + mask;
+			colors.push(sprite.color);
 		}		
 	}
 	if (result != "") {
 		result = langComment(etype, "--- " + this.getName()) + "\n" + result;
 	}
 		
-	return result;	
+	return {
+		result: result,
+		colors: colors,
+	}
 }
 
 Slot.prototype.load = function(enc) {

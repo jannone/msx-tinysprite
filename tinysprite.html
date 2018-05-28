@@ -35,7 +35,7 @@ Also, take a look at the Changelog:
 	 crossorigin="anonymous">
 	<link rel="stylesheet" href="css/tinysprite.css">
 
-	<title>TinySprite 0.6.0 - MSX Sprite Editor</title>
+	<title>TinySprite 0.7.0 - MSX Sprite Editor</title>
 </head>
 
 <body>
@@ -48,7 +48,7 @@ Also, take a look at the Changelog:
 				</div>
 				<div class="col">
 					<h1>TinySprite</h1>
-					<small>version 0.6.0</small>
+					<small>version 0.7.0</small>
 				</div>
 			</div>
 		</a>
@@ -240,6 +240,9 @@ Also, take a look at the Changelog:
 			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exportModal">
 				Export Sprites
 			</button>
+			<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#importModal">
+				Load Backup
+			</button>
 		</div>
 	</main>
 
@@ -255,6 +258,27 @@ Also, take a look at the Changelog:
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="importModal" tabindex="-1" role="dialog">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Load Backup</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<p>Paste your backup below:</p>
+						<textarea id='imp' class='importField'></textarea>						
+					</div>
+					<div class="modal-footer">
+						<button id="btnLoad" type="button" class="btn btn-primary" onclick="loadBackup()">Load</button>
+					</div>
+				</div>
+			</div>
+		</div>
+			
 
 	<div class="modal fade" id="exportModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -279,9 +303,10 @@ Also, take a look at the Changelog:
 									<option value='bin'>ASM binary</option>
 									<option value='C'>C</option>
 									<option value='pascal'>Pascal</option>
+									<option value='backup'>Backup</option>
 								</select>
 							</td>
-							<td style='vertical-align: bottom'>
+							<td style='vertical-align: bottom' id='chkExportAllSlots'>
 								<input id='exportAll' type='checkbox' checked='checked' onclick="exportWork()" />
 								<label for='exportAll'>all slots</label>
 							</td>
@@ -319,6 +344,7 @@ Also, take a look at the Changelog:
 
 				</div>
 				<div class="modal-footer">
+					<a id="linkTryMSXPen" href="https://msxpen.com" target="_blank">Try it on MSXPen!</a>
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 					<button id="btnCopyClipboard" type="button" class="btn btn-primary" onclick="copyExported()">Copy to Clipboard</button>
 				</div>

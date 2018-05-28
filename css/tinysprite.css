@@ -116,7 +116,7 @@ h3, h4, h5 {
 	float: left;
 }
 
-.exportField {
+.exportField, .importField {
 	width: 100%;
 	height: 11em;
 	padding: 8px;
@@ -260,4 +260,8 @@ h3, h4, h5 {
 
 #palette {
 	margin-bottom: 10px;
+}
+
+#linkTryMSXPen {
+	margin-right: auto;
 }

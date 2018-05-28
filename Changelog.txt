@@ -2,6 +2,12 @@
 
 Changelog:
 
+0.7.0
+	- 28/05/2018:
+		* Added backup import/export feature to replace deprecated load/save
+		* Added a more complete loader for MSX1 projects to allow viewing the result directly
+		* Added integration with MSXPen
+
 0.6.0
 	- 12/05/2018:
 		* Splits export feature to a separate modal window
